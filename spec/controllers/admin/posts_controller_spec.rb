@@ -8,12 +8,16 @@ describe Admin::PostsController do
     end
 
     it "#new" do
-      pending
+      get :new
+      expect(response.status).to eq 200
     end
 
     context "#create" do
       it "creates a post with valid params" do
-        pending
+        expect {
+        post :create, post: {title: 'title', content: 'content'}
+        }.to change(Post, :count).by(1)
+        expect(respone.url).to redirect_to post_url(Post.last) 
       end
       it "doesn't create a post when params are invalid" do
         pending
