@@ -10,6 +10,7 @@ require 'database_cleaner'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
+  
   config.include Capybara::DSL
 
   config.mock_with :rspec
@@ -30,4 +31,5 @@ RSpec.configure do |config|
   config.after(:each) do
     DatabaseCleaner.clean
   end
+  config.include FactoryGirl::Syntax::Methods
 end

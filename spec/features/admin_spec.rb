@@ -3,6 +3,7 @@ require 'spec_helper'
 feature 'Admin panel' do
   context "on admin homepage" do
     it "can see a list of recent posts"
+    
 
     it "can edit a post by clicking the edit link next to a post"
 
