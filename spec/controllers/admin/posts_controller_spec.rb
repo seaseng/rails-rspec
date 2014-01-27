@@ -15,26 +15,42 @@ describe Admin::PostsController do
     context "#create" do
       it "creates a post with valid params" do
         expect {
-        post :create, post: {title: 'title', content: 'content'}
-        }.to change(Post, :count).by(1)
-        expect(respone.url).to redirect_to post_url(Post.last) 
+          post :create, post: {title: 'title', content: 'content'}
+          }.to change(Post, :count).by(1)
+        expect(response).to redirect_to admin_post_url(Post.last) 
       end
       it "doesn't create a post when params are invalid" do
-        pending
+        expect {
+          post :create, post: {title: nil, content: nil}
+          }.not_to change(Post, :count)
+        expect(response).to render_template :new
       end
     end
 
     context "#edit" do
+      let(:post) { Post.create(title: 'title', content: 'content') }
       it "updates a post with valid params" do
-        pending
+        put :update, id: post.id, post: {title: 'new title', content: 'new content'}
+        post.reload
+        expect(post.title).to eq 'new title'.titleize
+        expect(post.content).to eq 'new content'
       end
       it "doesn't update a post when params are invalid" do
-        pending
+        put :update, id: post.id, post: {title: '', content: 'new content'}
+        expect(post.title).not_to eq ''
+        expect(post.content).not_to eq 'new content'
       end
     end
 
-    it "#destroy" do
-      pending
+    context "Delete destroy" do
+      let!(:post) { Post.create(title: 'title', content: 'content') }
+      it "deletes a post" do
+        expect{
+          delete :destroy, id: post
+          }.to change(Post, :count).by(-1)
+
+      end
     end
+
   end
 end
